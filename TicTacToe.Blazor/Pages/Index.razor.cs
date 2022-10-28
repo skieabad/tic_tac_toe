@@ -28,8 +28,6 @@ namespace TicTacToe.Blazor.Pages
         private static bool _isPopoverOpen;
         private static string CurrentPlayerName => _isPlayer1Turn ? Player1 : Player2;
 
-        private static string MatchResult = "";
-
         private static string CurrentWinnerName
         {
             get
@@ -52,6 +50,7 @@ namespace TicTacToe.Blazor.Pages
         private string _position6Text = "";
         private string _position7Text = "";
         private string _position8Text = "";
+        private string _gameResultText = "";
 
         [Inject] private IGame? Game { get; set; }
 
@@ -217,18 +216,20 @@ namespace TicTacToe.Blazor.Pages
 
             if (string.IsNullOrEmpty(playerResult) || !result.Winner)
             {
-                if (playerResult == "draw")
+                if (playerResult != "draw")
                 {
-                    MatchResult = "Draw";
-                    _isPopoverOpen = true;
+                    return;
                 }
+
+                _gameResultText = "Draw";
+                _isPopoverOpen = true;
 
                 return;
             }
 
             _winnerPlayer = playerResult;
 
-            MatchResult = $"The Winner is {CurrentWinnerName}";
+            _gameResultText  = $"The Winner is {CurrentWinnerName}";
             _isPopoverOpen = true;
             StateHasChanged();
         }
