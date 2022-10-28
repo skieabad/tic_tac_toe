@@ -1,2 +1,3 @@
 # tic_tac_toe
-Tic Tac Toe using Blazor
+
+This project uses Blazor Component which is MudBlazor
