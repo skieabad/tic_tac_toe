@@ -1,0 +1,148 @@
+﻿@page "/"
+
+<style>
+    .center {
+        margin: auto;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .text-color {
+        color: white;
+    }
+
+    .text-player1 {
+        color: green;
+        text-align: center;
+    }
+
+    .text-player2 {
+        color: red;
+        text-align: center;
+    }
+
+    .mud-item-square-size {
+        width: 200px;
+        height: 200px;
+    }
+
+    .buttons-size {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ffffff;
+    }
+
+    .reset-button {
+        color: white;
+        background: black;
+        height: 40px;
+        width: 120px;
+    }
+
+    .popover-winner {
+        width: 300px;
+        height: 200px;
+        padding: 20px;
+        position: absolute;
+        top: calc(50% - 60px);
+        left: calc(50% - 110px);
+        z-index: 9;
+    }
+
+    .container{
+        position: relative;
+    }
+
+    .text-center {
+		text-align: center;
+    }
+
+</style>
+
+<MudGrid Spacing="0" Class="d-flex justify-center">
+    <MudItem xs="12">
+        <div class="center text-color">
+            <MudText Class="pt-4"
+                     Style="font-weight: bold; font-size: 40px">Tic-Tac-Toe</MudText>
+            <MudText Class="@(ChangeTextColor(CurrentPlayerName))"
+                     Style="font-weight: semi-bold; font-size: 28px">
+                @($"Current turn: {CurrentPlayerName}")
+            </MudText>
+        </div>
+    </MudItem>
+
+    <MudItem xs="12" Class="center pa-4">
+        <MudButton Class="reset-button" Variant="Variant.Text" Color="Color.Transparent"
+                   OnClick="@ResetGame">Reset</MudButton>
+    </MudItem>
+
+    <MudItem xs="3">
+        <MudText Class="text-player1 mt-16 pt-16" Style="font-size: 21px">Player 1</MudText>
+    </MudItem>
+
+    <MudItem xs="6">
+        <div class="container">
+            <MudGrid Spacing="0" Class="pt-16" Style="position:relative">
+                <MudItem xs="4" Class="mud-item-square-size">
+                    <MudButton Class="buttons-size" Variant="Variant.Filled" Color="Color.Transparent" OnClick="@Box0Clicked">
+                        <MudText Class="@(ChangeTextColor(_position0Text == "X"))" Style="font-size: 80px">@_position0Text</MudText>
+                    </MudButton>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudButton Class="buttons-size" Variant="Variant.Filled" Color="Color.Transparent" OnClick="@Box1Clicked">
+                        <MudText Class="@(ChangeTextColor(_position1Text == "X"))" Style="font-size: 80px">@_position1Text</MudText>
+                    </MudButton>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudButton Class="buttons-size" Variant="Variant.Filled" Color="Color.Transparent" OnClick="@Box2Clicked">
+                        <MudText Class="@(ChangeTextColor(_position2Text == "X"))" Style="font-size: 80px">@_position2Text</MudText>
+                    </MudButton>
+                </MudItem>
+                <MudItem xs="4" Class="mud-item-square-size">
+                    <MudButton Class="buttons-size" Variant="Variant.Filled" Color="Color.Transparent" OnClick="@Box3Clicked">
+                        <MudText Class="@(ChangeTextColor(_position3Text == "X"))" Style="font-size: 80px">@_position3Text</MudText>
+                    </MudButton>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudButton Class="buttons-size" Variant="Variant.Filled" Color="Color.Transparent" OnClick="@Box4Clicked">
+                        <MudText Class="@(ChangeTextColor(_position4Text == "X"))" Style="font-size: 80px">@_position4Text</MudText>
+                    </MudButton>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudButton Class="buttons-size" Variant="Variant.Filled" Color="Color.Transparent" OnClick="@Box5Clicked">
+                        <MudText Class="@(ChangeTextColor(_position5Text == "X"))" Style="font-size: 80px">@_position5Text</MudText>
+                    </MudButton>
+                </MudItem>
+                <MudItem xs="4" Class="mud-item-square-size">
+                    <MudButton Class="buttons-size" Variant="Variant.Filled" Color="Color.Transparent" OnClick="@Box6Clicked">
+                        <MudText Class="@(ChangeTextColor(_position6Text == "X"))" Style="font-size: 80px">@_position6Text</MudText>
+                    </MudButton>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudButton Class="buttons-size" Variant="Variant.Filled" Color="Color.Transparent" OnClick="@Box7Clicked">
+                        <MudText Class="@(ChangeTextColor(_position7Text == "X"))" Style="font-size: 80px">@_position7Text</MudText>
+                    </MudButton>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudButton Class="buttons-size" Variant="Variant.Filled" Color="Color.Transparent" OnClick="@Box8Clicked">
+                        <MudText Class="@(ChangeTextColor(_position8Text == "X"))" Style="font-size: 80px">@_position8Text</MudText>
+                    </MudButton>
+                </MudItem>
+            </MudGrid>
+
+            <MudPopover Class="popover-winner d-flex flex-column justify-center align-center" Open="@_isPopoverOpen"
+                        AnchorOrigin="Origin.CenterCenter"
+                        TransformOrigin="Origin.CenterCenter">
+                <div style="background-color:white;">
+                    <h2 class="text-center">@MatchResult</h2>
+                    <MudButton OnClick="@ToggleOpen" Color="Color.Error">Close</MudButton>
+                </div>
+            </MudPopover>
+        </div>
+    </MudItem>
+
+    <MudItem xs="3">
+        <MudText Class="text-player2 ml-4 pt-16 mt-16" Style="font-size: 21px">Player 2</MudText>
+    </MudItem>
+</MudGrid>
